@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 NFL Mock Draft — Full First Round</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #012B6B;
+    --red: #C8102E;
+    --gold: #E8B84B;
+    --bg: #F5F2EC;
+    --paper: #FDFAF5;
+    --ink: #1a1612;
+    --muted: #6b6259;
+    --rule: #d6cfc4;
+    --trade: #7B2D8B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; line-height: 1.75; }
+
+  .masthead { background: var(--blue); position: relative; overflow: hidden; }
+  .masthead::after { content: ''; display: block; height: 5px; background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--red) 100%); }
+  .masthead-inner { max-width: 860px; margin: 0 auto; padding: 52px 32px 44px; }
+  .masthead-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .masthead h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(42px, 8vw, 80px); line-height: 0.92; letter-spacing: -1px; text-transform: uppercase; color: #fff; }
+  .masthead h1 em { font-style: normal; color: var(--gold); }
+  .masthead-sub { font-family: 'Source Serif 4', serif; font-style: italic; font-weight: 300; font-size: 18px; color: rgba(255,255,255,0.65); margin-top: 18px; max-width: 560px; line-height: 1.5; }
+  .masthead-meta { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 28px; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 16px; display: flex; gap: 24px; }
+  .masthead-meta span { color: rgba(255,255,255,0.6); }
+
+  .intro { max-width: 860px; margin: 0 auto; padding: 48px 32px 0; }
+  .intro p { font-size: 17px; color: var(--muted); font-style: italic; border-left: 3px solid var(--gold); padding-left: 20px; line-height: 1.7; }
+
+  .legend { max-width: 860px; margin: 24px auto 0; padding: 0 32px; display: flex; gap: 20px; flex-wrap: wrap; }
+  .legend-item { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 7px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--trade); flex-shrink: 0; }
+
+  .picks { max-width: 860px; margin: 40px auto 0; padding: 0 32px 80px; }
+
+  .pick { display: grid; grid-template-columns: 64px 1fr; gap: 0 24px; padding: 32px 0; border-bottom: 1px solid var(--rule); }
+  .pick:first-child { border-top: 1px solid var(--rule); }
+
+  .pick-num-col { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
+  .pick-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 38px; line-height: 1; color: var(--blue); }
+  .pick-num.trade { color: var(--trade); }
+  .pick-num-label { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .trade-badge { margin-top: 6px; background: var(--trade); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; }
+
+  .pick-team { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); }
+  .pick-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 28px; line-height: 1; color: var(--ink); letter-spacing: -0.3px; }
+  .pick-pos-school { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .pos-pill { background: var(--blue); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 2px; letter-spacing: 1.5px; }
+  .pick-text { font-size: 16px; line-height: 1.78; color: #2e2923; }
+  .pick-comp { margin-top: 14px; display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 4px 10px; border-radius: 2px; }
+  .pick-comp strong { color: var(--red); }
+
+  footer { background: var(--blue); padding: 40px 32px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  footer span { color: var(--gold); }
+
+  @media (max-width: 600px) {
+    .pick { grid-template-columns: 48px 1fr; gap: 0 16px; }
+    .pick-num { font-size: 28px; }
+    .pick-name { font-size: 22px; }
+    .masthead-inner { padding: 36px 20px 32px; }
+    .picks, .intro, .legend { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">2026 NFL Draft · Round 1 · Full Mock</div>
+    <h1>The Big<br><em>Board.</em></h1>
+    <p class="masthead-sub">Every pick, every team, every justification — my complete first-round mock draft for the 2026 NFL Draft.</p>
+    <div class="masthead-meta">
+      <div>32 Picks <span>· Round 1</span></div>
+      <div>April 2026</div>
+<div>Written by Aubrey Riczker</div>
+    </div>
+  </div>
+</div>
+
+<div class="intro">
+  <p>This is my full first-round mock draft ahead of the 2026 NFL Draft. Every selection comes with my reasoning — strengths, weaknesses, scheme fits, and an NFL comp. Trade picks are noted where applicable. Let's get into it.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot"></div> Pick acquired via trade</div>
+</div>
+
+<div class="picks">
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">1</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Las Vegas Raiders</div>
+      <div class="pick-name">Fernando Mendoza</div>
+      <div class="pick-pos-school"><span class="pos-pill">QB</span> Indiana</div>
+      <p class="pick-text">We all knew this was inevitable when Fernando stole our hearts in January. A QB prospect doesn't get more polished than him. With the right pieces around him, he'll succeed.</p>
+      <div class="pick-comp">NFL Comp · <strong>A more mobile Matt Ryan</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">2</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">New York Jets</div>
+      <div class="pick-name">David Bailey</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> Texas Tech</div>
+      <p class="pick-text">The question wasn't whether the Jets were going to take an edge rusher, it was which one. All I've seen recently is how much the Jets like Bailey, and what's not to love? Needs to improve his run defense, but that will come in due time. He's got all the tools to be a stud for the Jets.</p>
+      <div class="pick-comp">NFL Comp · <strong>Khalil Mack</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">3</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Arizona Cardinals</div>
+      <div class="pick-name">Jeremiyah Love</div>
+      <div class="pick-pos-school"><span class="pos-pill">RB</span> Notre Dame</div>
+      <p class="pick-text">Try to ignore the positional value debate — Love will inject some much-needed juice into a lackluster Cardinals offense. A lot of people around the league view Love as a generational RB and the top overall player in the draft. That, mixed with new head coach Mike LaFleur's zone run system and elite track record with RBs, makes this a match made in heaven. This could easily be a trade-down spot, although I feel that Love is too good to pass up on.</p>
+      <div class="pick-comp">NFL Comp · <strong>LaDainian Tomlinson</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">4</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Tennessee Titans</div>
+      <div class="pick-name">Arvell Reese</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> Ohio State</div>
+      <p class="pick-text">With Love gone, the Titans go best player available in Reese. Potentially with the highest ceiling in the draft, Reese is projected to play edge but can also play off the ball and cover effectively. He's a stud — a main reason Ohio State has been so dominant on the defensive side of the ball these last few years. The Micah Parsons comparison may be lazy, but it's real. If he can put it all together, I've got no doubt Reese will be a superstar for Robert Saleh.</p>
+      <div class="pick-comp">NFL Comp · <strong>Micah Parsons</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">5</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">New York Giants</div>
+      <div class="pick-name">Caleb Downs</div>
+      <div class="pick-pos-school"><span class="pos-pill">S</span> Ohio State</div>
+      <p class="pick-text">After moving Dexter Lawrence for the #10 pick, the Giants are almost certainly going defense with one of their two first-round picks. The Downs fit makes too much sense — he'll be an impact player right away and step in as a much-needed leader on the Giants defense. Harbaugh did wonders with Kyle Hamilton as a hybrid box safety, which is what Downs is expected to be. I wouldn't be shocked if they went Sonny Styles here, however the Downs fit makes too much sense to ignore.</p>
+      <div class="pick-comp">NFL Comp · <strong>Eric Berry</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">6</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Cleveland Browns</div>
+      <div class="pick-name">Spencer Fano</div>
+      <div class="pick-pos-school"><span class="pos-pill">OT</span> Utah</div>
+      <p class="pick-text">The Browns have been rumored to go WR here, however their offensive line is putrid to say the least. They lost 4/5 of their 2025 starting OL to free agency and replaced them with mediocre talent. It doesn't get safer than Fano — while his physical measurables aren't the most impressive, he's got unbelievable footwork and projects to be an elite pass protector.</p>
+      <div class="pick-comp">NFL Comp · <strong>Rashawn Slater</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">7</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Washington Commanders</div>
+      <div class="pick-name">Carnell Tate</div>
+      <div class="pick-pos-school"><span class="pos-pill">WR</span> Ohio State</div>
+      <p class="pick-text">Consider this another investment into Jayden Daniels. Terry McLaurin still has juice, and Deebo proved a lot of doubters wrong last season, however both are on the wrong side of 30 and only getting older. Carnell Tate comes from the WR factory in Columbus, projecting to be their 6th first-round receiver since 2022. He's got every tool you'd want — smooth route runner, elite footwork, hands, and great football speed. I've got no doubt he'll form a great connection with JD for years.</p>
+      <div class="pick-comp">NFL Comp · <strong>Reggie Wayne</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">8</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">New Orleans Saints</div>
+      <div class="pick-name">Rueben Bain Jr.</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> Miami (FL)</div>
+      <p class="pick-text">To put it simply: Bain is a dog. He can line up anywhere on the line and is great at everything. He plays with such a high motor and was the main reason Mario Cristobal's defense was so elite down the stretch. His sole concern is arm length, but his other strengths more than make up for it. The fit with the Saints can be awesome — they need an elite pass rusher to one day replace future HOF Cameron Jordan, who's 37 and surely retiring soon. In the meantime, Bain is a hell of a protégé with a great vet to learn from.</p>
+      <div class="pick-comp">NFL Comp · <strong>Dwight Freeney</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">9</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Dallas Cowboys <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Sonny Styles</div>
+      <div class="pick-pos-school"><span class="pos-pill">LB</span> Ohio State</div>
+      <p class="pick-text">A match made in heaven. I'm positive Cowboys fans won't survive another year of watching Kenneth Murray, whose 2025 tape is the worst I've ever seen. In comes Styles, who legitimately looks like he was made in a lab — he stands 6'5", 243 lbs with a 9.99 Relative Athletic Score, a complete freak of nature. Every great team in today's NFL has an elite MIKE linebacker, and Styles is primed to be an anchor for Christian Parker's defense, hopefully leading the Cowboys back to the promised land.</p>
+      <div class="pick-comp">NFL Comp · <strong>Fred Warner inside the body of Isaiah Simmons</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">10</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">New York Giants <span style="font-weight:400;color:var(--muted)">· via trade (Dexter Lawrence)</span></div>
+      <div class="pick-name">Jordyn Tyson</div>
+      <div class="pick-pos-school"><span class="pos-pill">WR</span> Arizona State</div>
+      <p class="pick-text">Supposedly the Giants adore Tyson, and what's not to love? If it weren't for his injury history, he'd be the first receiver off the board. These durability concerns are valid on the surface level, but after breaking down each event, the pattern isn't chronic or predictive — it's a series of isolated, unrelated setbacks that he consistently returned from at a high level. I'm not evaluating these players with NFL coaches and doctors, so who am I to make a real conclusion about Tyson's health? If it's truly an issue, Makai Lemon is a great alternative. However, what I do know is that Dart, Skattebo, Nabers, and Tyson would be must-see TV.</p>
+      <div class="pick-comp">NFL Comp · <strong>Garrett Wilson</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">11</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Miami Dolphins</div>
+      <div class="pick-name">Francis Mauigoa</div>
+      <div class="pick-pos-school"><span class="pos-pill">OT</span> Miami (FL)</div>
+      <p class="pick-text">Watching Mauigoa in the CFB Playoffs and his tape at Miami is something everyone should consider doing at some point. One of the videos was titled "The Samoan Steamroller" — which I really hope sticks. Point is, he makes everything look so easy. He looks to be an elite puller and run blocker with so many pancakes you'd think he's living at iHOP. His pass protection is great too — his hands are so quick and he's a literal steamroller out there. I've seen him get beat with stunts a few times, but that can be resolved with reps and NFL coaching. He looks like a guard but moves like a tackle; I think he'd be great at either spot. There are some concerns with his back, and once again I'm not a doctor or NFL executive, but I consider pick 11 about the latest he'll be selected. If these didn't exist, he'd be the unanimous top OL in the draft.</p>
+      <div class="pick-comp">NFL Comp · <strong>Penei Sewell (in an ideal world)</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">12</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Kansas City Chiefs <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Mansoor Delane</div>
+      <div class="pick-pos-school"><span class="pos-pill">CB</span> LSU</div>
+      <p class="pick-text">Finally, the best corner in the draft gets selected. The Chiefs recently moved on from Trent McDuffie and have a glaring hole on the outside. Delane is so sticky — he has the potential to be a top man-to-man corner in the league. His IQ and ball skills are also good enough to excel in zone. Overall, there are few flaws to his game, and the Chiefs should be pleased after trading down and still getting the guy they likely wanted all along.</p>
+      <div class="pick-comp">NFL Comp · <strong>Quinyon Mitchell</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">13</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Los Angeles Rams</div>
+      <div class="pick-name">Makai Lemon</div>
+      <div class="pick-pos-school"><span class="pos-pill">WR</span> USC</div>
+      <p class="pick-text">For a team that doesn't exactly have a glaring need, they draft the best player available here. Lemon is a football player first. Some receivers get moved to corner in college because they're not good enough — Lemon was so good at both in high school that there was a legitimate debate on where he'd play. He chose wisely, winning the Biletnikoff Award as the best WR in college in 2025. His hands are beyond elite, and his RAC ability is his biggest strength — a true human joystick. That RAC ability will certainly be maximized in a Sean McVay offense. As a slightly smaller guy he struggles against press coverage, but should enter the league as a great slot receiver right away. The main takeaway: once he gets the ball in his hands, good luck.</p>
+      <div class="pick-comp">NFL Comp · <strong>Amon-Ra St. Brown</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">14</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Carolina Panthers <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Kenyon Sadiq</div>
+      <div class="pick-pos-school"><span class="pos-pill">TE</span> Oregon</div>
+      <p class="pick-text">Bryce Young and the Panthers offense really took a leap after the addition of offensive rookie of the year Tetairoa McMillan in the 2025 draft, and they continue to bolster their offense by trading up one pick in front of division rival Tampa Bay to add Kenyon Sadiq. I hate the phrase "tight end with wide receiver skills," but I'm gonna use it here because that's what Sadiq is. He's got a RAS of 9.49 and is in the 99th percentile for his jumping skills and 40 time for tight ends. As a blocker, he's not amazing — but what do you expect for a 6'2" TE? Is he the worst blocker I've ever seen? No. Is he the best? Also no, but the effort is always there and it's something coaches can solve with technique improvements. The biggest flaw in his game seems to be his drop rate, which was absurdly high this year. It could very well be a fluke since Sadiq is known for his hands and acrobatic catches, but his job is to catch the ball and not drop it (thanks, Captain Obvious). Bonus: he turned 21 in March and is one of the youngest prospects in the draft.</p>
+      <div class="pick-comp">NFL Comp · <strong>Evan Engram (but much better)</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">15</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Tampa Bay Buccaneers</div>
+      <div class="pick-name">Akheem Mesidor</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> Miami (FL)</div>
+      <p class="pick-text">If production was the only thing NFL scouts cared about, Mesidor would be selected much higher. However, he just turned 25 and projects to have a lower ceiling than other premier pass rushers. At Miami, him and Rueben Bain put up extremely similar numbers — he ranked just behind Bain and Bailey in pass rush win rate (21.3%), and typically anyone over 20% is a surefire first rounder. He has an injury history to take note of, but was healthy last year and highly productive. He's a beast: super technically savvy with a relentless motor, and has shown the ability to shift inside. He lost some weight before his career-best 2025 season — we'll see how teams elect to use him, especially Todd Bowles, who runs a wacky 3-4 defense with crazy blitz packages and consistently drops edges into coverage. Most mocks have him as a Day 2 pick because of the age, but I think he's too good to ignore — and a team like Tampa that wants to win now will love him. If his medicals check out, he projects as a Day 1 starter that will positively impact a Bucs defense that was pretty subpar last season (5.7 yards/play allowed).</p>
+      <div class="pick-comp">NFL Comp · <strong>Prime Everson Griffen</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">16</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">New York Jets <span style="font-weight:400;color:var(--muted)">· via trade (Sauce Gardner)</span></div>
+      <div class="pick-name">Jermod McCoy</div>
+      <div class="pick-pos-school"><span class="pos-pill">CB</span> Tennessee</div>
+      <p class="pick-text">McCoy has had a lot of injury concerns — sitting out last season with a torn ACL — but his 2024 tape was insanely good, objectively better than Delane's tape this season. Both were against top SEC competition, and many scouting reports suggest he was the best cornerback in college football that season. I'm big on the tape and eye test being the biggest indicators of a player's abilities, but once again, I'm not a doctor. For that reason, he's my CB2 — but don't be shocked if he ends up the top corner off the board. McCoy answered the critics at his pro day in March (40 time: 4.38, Vert: 38", Broad: 10'7"). Seems like he'll be okay. The Jets traded Sauce Gardner to the Colts for two firsts, and will use one of them on his replacement. McCoy is long, physical, and should be a stud if healthy.</p>
+      <div class="pick-comp">NFL Comp · <strong>A more physical Darius Slay</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">17</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Detroit Lions</div>
+      <div class="pick-name">Monroe Freeling</div>
+      <div class="pick-pos-school"><span class="pos-pill">OT</span> Georgia</div>
+      <p class="pick-text">A guy on Reddit said it best: "If you take Freeling, you may get Kolton Miller and be set at left tackle for a decade, or he could flame out like the dozens and dozens of athletic R1 tackles that get drafted for their athletic traits and potential. It really depends on how confident the team is in their ability to develop O-line talent." Lucky for Freeling, the Lions have a great track record with offensive linemen, and his skillset fits perfectly with what they want to do: run the ball down defenses' throats. Freeling is known for his elite length (84-inch wingspan) and being really quick and agile in space. Oh, he also had a 9.99 RAS — the second highest of all time for tackles. Not too shabby. It's also worth mentioning that he primarily plays left tackle, which would let Penei Sewell stick around on the right side where he's been so dominant.</p>
+      <div class="pick-comp">NFL Comp · <strong>Kolton Miller / Spencer Brown</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">18</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Minnesota Vikings</div>
+      <div class="pick-name">Dillon Thieneman</div>
+      <div class="pick-pos-school"><span class="pos-pill">S</span> Oregon</div>
+      <p class="pick-text">In mock drafts, this pick shows up almost as consistently as Mendoza to the Raiders — and for good reason. The Vikings secondary is pretty bad, ranking in the bottom 5 according to PFF. The secondary relies heavily on Brian Flores' defensive scheme to generate pressure, masking their deficiencies in coverage. The main reason it's so likely for the Vikings to take Thieneman is the inevitable release of Harrison Smith, a projected post-June 1 cut. I hate the argument of positional value here, because I really believe Thieneman will be one of the 30 best players in this class. He's an athletic freak (9.72 RAS, 4.36 40 time), super physical, and has a tremendous IQ — always seeming to be in the right spot on tape. Still needs to improve as a tackler at the next level, and isn't the biggest dude in the world, but plays bigger than his size. He'd fit perfectly in this scheme and fills a huge hole in the Vikings' back end.</p>
+      <div class="pick-comp">NFL Comp · <strong>Talanoa Hufanga</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">19</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Baltimore Ravens <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Olaivavega Ioane</div>
+      <div class="pick-pos-school"><span class="pos-pill">OG</span> Penn State</div>
+      <p class="pick-text">I love these Samoan OL prospects — strength-wise, they seem cut from a different cloth than the average joe. The Ravens' offensive line was so terrible last season that this is the first year I can recall Ravens fans not begging for Eric DeCosta to draft a WR. In comes Olaivavega "Vega" Ioane — a Day 1 starter at guard who will immediately boost their run game. Vega has insane upper-body strength, a super solid base, and huge hands (10.5") that are impossible to get off you once he's engaged. He was one of the sole bright spots on a disappointing Penn State team. Vega rarely misses his assignment and has insane potential as a puller. In this spot, the Ravens trade down and still get the guy they likely would've taken at 14.</p>
+      <div class="pick-comp">NFL Comp · <strong>Tyler Booker</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">20</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Kansas City Chiefs <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Keldric Faulk</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> Auburn</div>
+      <p class="pick-text">Faulk is a freak athlete. The Chiefs love taking these raw, high-upside developmental guys, and it typically pays dividends. There's a lot to love — Faulk's blend of size, length, strength, and motor is ideal in a DL prospect. At Auburn he excelled as a power rusher, specifically his bull rush that consistently showed up on tape. I personally love a guy who can rush off the edge and shift inside with no drop-off in production. He'd be rotating next to Chris Jones and Khyris Tonga — or even off the edge — and can be great at all of them. Just don't be shocked if it takes some time. Apparently he's also an amazing guy off the field: Faulk was a two-year captain at Auburn, and during the draft interview process his leadership traits were consistently praised. He seems to have a level of comfort and poise that is rare for a 20-year-old prospect.</p>
+      <div class="pick-comp">NFL Comp · <strong>Arik Armstead</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">21</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Pittsburgh Steelers</div>
+      <div class="pick-name">Caleb Lomu</div>
+      <div class="pick-pos-school"><span class="pos-pill">OT</span> Utah</div>
+      <p class="pick-text">Lomu is super athletic and has potential to be awesome. He's got great lateral quickness and mirroring ability in pass protection, and his tape suggests he's a smooth mover in space — making him ideal for zone-blocking schemes that new HC Mike McCarthy wants to implement. Lomu's got strong hands and natural recovery balance if initially beaten. His measurables aren't great — short arms and not the mass you want in an NFL tackle — yet he allowed zero sacks in 383 pass-blocking snaps during the 2025 season in a good Big 12 conference. McCarthy has been showing surprising confidence in the Steelers OL, but that won't stop him from drafting one. In 11 of McCarthy's 18 drafts, his team's first selection was either an offensive or defensive lineman — including his last four drafts in Dallas.</p>
+      <div class="pick-comp">NFL Comp · <strong>What André Dillard could've been</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">22</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Los Angeles Chargers</div>
+      <div class="pick-name">Peter Woods</div>
+      <div class="pick-pos-school"><span class="pos-pill">DT</span> Clemson</div>
+      <p class="pick-text">Woods is an athletic freak. His first-step explosiveness and overall athletic profile for a 300+ lb defender is elite. Woods has insane upper-body power, really violent hands, and the agility to occasionally line up as a jumbo edge rusher. He ran a 4.86 40 time, and that definitely shows up on tape — he somehow manages to run by guys on the inside and consistently chases ball carriers downfield. Like many 2026 prospects, the main weaknesses come with arm size, and he's also notorious for his lack of gap discipline, occasionally taking unnecessary risks rather than holding his run fit. This can be resolved with good coaching, and Jim Harbaugh is exactly that. The Chargers could use some more help up the middle, so it would be awesome to see them take a chance on a super high-upside prospect in Woods.</p>
+      <div class="pick-comp">NFL Comp · <strong>Christian Wilkins</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">23</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Philadelphia Eagles</div>
+      <div class="pick-name">Omar Cooper Jr.</div>
+      <div class="pick-pos-school"><span class="pos-pill">WR</span> Indiana</div>
+      <p class="pick-text">Assuming the AJ Brown trade to the Patriots is happening, I really like the fit of Omar Cooper on the Eagles. Already used to playing in a run-heavy system at IU, Cooper is a great and willing blocker — the IU staff used him like Puka Nacua as a lead blocker in the B gap against guys way bigger than him. Cooper was a three-sport athlete in college (football, basketball, track), so it goes without saying that his measurables are good. His YAC ability is great, but he's a little raw in terms of route running and separation against man coverage. Facing zone is a different story — his feel for finding pockets in coverage is elite, probably his biggest strength. In fact, PFF had him as the second-best WR against zone in all of CFB, behind only the great Jeremiah Smith. Cooper isn't an A+ prospect, but it's clear he's a winner — plays inside and outside, can play within a system, and predominantly makes the right play. He'd be a great fit in Philly's offense.</p>
+      <div class="pick-comp">NFL Comp · <strong>Ladd McConkey</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">24</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Cleveland Browns</div>
+      <div class="pick-name">Denzel Boston</div>
+      <div class="pick-pos-school"><span class="pos-pill">WR</span> Washington</div>
+      <p class="pick-text">Boston is a literal ball vacuum. His catch radius is insane, and he LOVES to go up and get a 50/50 ball — his tape is really fun to watch. His main concerns center around his speed and ability to create separation against NFL cornerbacks. Historically, his YAC ability is low compared to other top prospects, and his bread and butter is contested catches (which he's awesome at). His route tree is also a little limited, likely a product of the system he was playing in at Washington. Regardless, Cleveland has a desperate need for a WR — specifically an X — and Boston can fill that beautifully. I really hope he can develop and improve his weaknesses, because I think he can be really, really good.</p>
+      <div class="pick-comp">NFL Comp · <strong>Michael Pittman Jr.</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">25</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Chicago Bears</div>
+      <div class="pick-name">T.J. Parker</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> Clemson</div>
+      <p class="pick-text">Parker has elite run-stopping discipline and really strong, violent hands that annoy blockers. He truly embodies the big, long, and powerful EDGE archetype favored by defensive coordinator Dennis Allen. Parker played in a 4-man front at Clemson, so schematically he fits perfectly with what the Bears want to do. While Parker might lack the freakish athletic ceiling of a 15-sack-per-year superstar, his floor is incredibly high because of his great technique and high IQ. This season, he projects as a great rotational edge for the Bears — but can hopefully develop into something more.</p>
+      <div class="pick-comp">NFL Comp · <strong>Trey Hendrickson</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">26</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Buffalo Bills</div>
+      <div class="pick-name">KC Concepcion</div>
+      <div class="pick-pos-school"><span class="pos-pill">WR</span> Texas A&amp;M</div>
+      <p class="pick-text">Joe Brady loves these small, twitchy receivers. KC has elite lateral quickness and separation ability — he's a YAC machine with a complete route tree, often used in motions, screens, and jet sweeps. He also offers high-level special teams value as a punt returner. Plus, he was born in Rochester, NY and the Bills are his dad's favorite team. Would be pretty cool! I don't think he can be a consistent WR1 because of his smaller frame, lack of elite speed, and high drop rate. There will be corners who can mirror him and hamper his ability to move the chains. I love his YAC ability, but Buffalo already has so many guys with that trait — DJ Moore, Shakir, Kincaid, etc. One underrated ability: KC led Texas A&amp;M with 8 red-zone touchdowns and was the SEC leader in receiving TDs with 9. The Bills can sometimes struggle to pass in the red area, so KC should help. Assuming nothing crazy happens, I do believe Buffalo goes WR with this pick — and KC is a perfect scheme fit who can hopefully improve their red-zone offense.</p>
+      <div class="pick-comp">NFL Comp · <strong>Wan'Dale Robinson</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">27</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">San Francisco 49ers</div>
+      <div class="pick-name">Kadyn Proctor</div>
+      <div class="pick-pos-school"><span class="pos-pill">OT</span> Alabama</div>
+      <p class="pick-text">The 6'7", 352-pound giant from Bama is one of my favorite players in the draft. The image of him catching a swing pass and almost scoring against Georgia lives rent-free in my head. Proctor has elite raw power and massive anchor strength that stonewalls pass rushers. He has pretty nimble feet for his size and excels as a "road-grader" in gap-blocking schemes. Being so big comes with its issues — Proctor struggles when edge rushers are aligned widely, which may indicate he'd be better suited as a guard, similar to Mekhi Becton's career arc. Apparently the Niners see Proctor as a "special player" who could fill two critical needs on a win-now timeline: the heir to Trent Williams (entering his age-38 season) and a potential immediate starter at guard. This marriage with Kyle Shanahan introduces some really exciting possibilities.</p>
+      <div class="pick-comp">NFL Comp · <strong>Mekhi Becton / Trent Brown</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">28</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Houston Texans</div>
+      <div class="pick-name">Kayden McDonald</div>
+      <div class="pick-pos-school"><span class="pos-pill">DT</span> Ohio State</div>
+      <p class="pick-text">Big Mac had a heck of a 2025 campaign, winning Big Ten Defensive Lineman of the Year and being named a unanimous All-American. A big reason was his elite run-stopping ability — he led the FBS in 2025 with 30 run stuffs. He's got literal tree-trunk lower-body power that makes him nearly immovable against double teams, and was a huge reason the OSU defense was so elite these past few years. Like every other prospect in this draft, he's got "short" arms — at this point there's gotta be something in the water. His tape suggests he's more of a pocket collapser than a refined pass rusher, but honestly that's a perfect fit on a Texans team that invests nearly $100M annually on their two star edge rushers. If he can refine his pass-rushing ability, he could be an All-Pro — but that's a massive IF. For now, he's a high-floor run stopper that will add a lot to an already elite Texans defense. Could easily be DT1 in this class.</p>
+      <div class="pick-comp">NFL Comp · <strong>DJ Reader / Derrick Brown</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">29</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Dallas Cowboys <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Malachi Lawrence</div>
+      <div class="pick-pos-school"><span class="pos-pill">EDGE</span> UCF</div>
+      <p class="pick-text">With their second of two first-round picks, the Cowboys select Malachi Lawrence. It's unlike Jerry to not draft an offensive lineman named Tyler in Round 1, but there's no one good! It also helps that this guy is a freak of nature — though quite a raw prospect. Since the combine, he's flown up draft boards. I saw a Reddit post saying that in under a week, Lawrence went from +400 to -140 on sportsbooks to be a first-round pick. That type of movement doesn't just happen for no reason. He posted a 9.90 RAS, ran a 4.52 40 time at 6'4", 250 lbs, has 35" arms, plays extremely physical, and has great bend — and just earned All-Big 12 First Team honors. The biggest weaknesses are common with raw prospects: inconsistent snap timing, a tendency to play too upright, and occasionally biting on play-fakes. This can all be corrected with coaching. Lucky for Dallas, Lawrence is described as a relentless worker and a high-IQ player who switched to defense late in high school. He is praised for his insane motor and unselfish play on a pretty bad UCF team. The upside is certainly there.</p>
+      <div class="pick-comp">NFL Comp · <strong>Nik Bonitto</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">30</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Miami Dolphins</div>
+      <div class="pick-name">Colton Hood</div>
+      <div class="pick-pos-school"><span class="pos-pill">CB</span> Tennessee</div>
+      <p class="pick-text">The Dolphins are more desperate for a corner than a camel is for water. Hood has elite physicality and shows a lot of toughness in run support — a seriously underrated aspect of his game. He excels in press-man coverage, using a disruptive punch to throw off receiver timing. He is very "ball aware" with high-level ball skills, leading to a lot of picks and PBUs. His tape suggests he's a super aggressive press-man bully that can potentially turn into the type of corner you can confidently leave on an island. That aggressive nature led to a fair bit of penalties at Tennessee and will surely continue in the NFL. He occasionally overplays routes, leaving him vulnerable to double moves — but this is prevalent with a lot of young, aggressive corners. The good news is that a few times when he did get beat, he recovered really quickly thanks to his insane speed. Hood clocked a 4.44s 40-yard dash with a 40.5-inch vertical at the combine — and reportedly ran closer to 4.35–4.41 at his pro day. He's fast. He's regarded as a high-character competitor who stepped into a CB1 role at Tennessee following Jermod McCoy's injury and was praised by coaches for his great work ethic and quick adjustment to the spotlight.</p>
+      <div class="pick-comp">NFL Comp · <strong>Terrion Arnold</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num">31</div><div class="pick-num-label">Pick</div></div>
+    <div class="pick-body">
+      <div class="pick-team">New England Patriots</div>
+      <div class="pick-name">Kamari Ramsey</div>
+      <div class="pick-pos-school"><span class="pos-pill">S</span> USC</div>
+      <p class="pick-text">For the second time in 40 years, three safeties will be drafted in Round 1. While some may consider this a slight reach, Ramsey is someone who has really stuck out to me on tape and has shot up my rankings recently. Touted as a coach on the field and a respected leader, Ramsey was named a captain at USC shortly after transferring from UCLA — and wore the green dot in spring practices to handle defensive communications, which is really uncommon for a safety. Ramsey was consistently listed as a prospect the Pats showed interest in, with scouting reports noting him as a fit for their system due to his versatility, football IQ, and experience in the slot. The scheme fit makes a ton of sense, and he can contribute effectively at safety, nickel, or on special teams.</p>
+      <div class="pick-comp">NFL Comp · <strong>Xavier McKinney</strong></div>
+    </div>
+  </div>
+
+  <div class="pick">
+    <div class="pick-num-col"><div class="pick-num trade">32</div><div class="pick-num-label">Pick</div><div class="trade-badge">Trade</div></div>
+    <div class="pick-body">
+      <div class="pick-team">Arizona Cardinals <span style="font-weight:400;color:var(--muted)">· via trade</span></div>
+      <div class="pick-name">Ty Simpson</div>
+      <div class="pick-pos-school"><span class="pos-pill">QB</span> Alabama</div>
+      <p class="pick-text">There are so many QB-needy teams lurking at the beginning of Round 2, and Seahawks GM John Schneider has made it clear they'll "be looking to move back" in the draft — so it's inevitable this pick will not belong to Seattle by Thursday night. It could be the Jets, Browns, or Steelers moving up, but I rolled with Arizona. Simpson is a high-IQ player who needs a good situation to develop. He's more of a distributor who wins with his mind rather than elite arm talent. He's only got 15 career starts — all in 2025 — with his accuracy and composure notably dipping during the final stretch of the season. Simpson set an Alabama record with a 0.95% interception rate (only 5 INTs on 473 attempts in 2025), but 4 of them came November 22 or later. He tended to struggle when the lights shined brightest — losing to Georgia in the SEC Championship and Indiana in the Rose Bowl, with Bama scoring just 10 points total across those two games. A Bama fan on Reddit put it perfectly: "If the real Ty Simpson is the guy from the first half of the season, then he's possibly a mid-pack starting NFL QB with high IQ and toughness. If the real Ty Simpson is the guy from the second half of the season, then he's probably nothing more than a smart and tough backup." Exactly.</p>
+      <div class="pick-comp">NFL Comp · <strong>Brock Purdy (with less aura)</strong></div>
+    </div>
+  </div>
+<div class="pick-comp">List of Trades</div>
+<div>Chiefs trade pick #9, #29, 2027 KC 3rd to Cowboys for Pick #12, #20</div>
+<div>Panthers trade pick #19, 2027 CAR 3rd to Ravens for Pick #14, 2027 Ravens 5th</div>
+<div>Cardinals trade pick #34, #143 to Seahawks for Pick #32, #188</div>
+</div>
+
+<footer>
+  <div>2026 NFL Mock Draft &nbsp;·&nbsp; <span>Full First Round</span> &nbsp;·&nbsp; All opinions are my own</div>
+</footer>
+
+</body>
+</html>
